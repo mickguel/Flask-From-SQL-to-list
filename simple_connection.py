@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template
+
+from flask import Flask, render_template, request
 from dotenv import load_dotenv
 import pymysql
 
@@ -7,15 +8,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-app.config.update(
-    TESTING=False,
-    FLASK_ENV='development',
-    DEBUG=True
-)
-
-app.config['FLASK_ENV'] = 'development'
-
-@app.route('/')
+@app.route('/', methods=["GET"])
 def index():
     db = pymysql.connect(
         host='localhost',
@@ -23,8 +16,14 @@ def index():
         password=str(os.getenv("PASSWORD")),
         db='dbg'
     )
+    sql = "SELECT * FROM datacator.municipios"
+    if request.method == 'GET':
+        sort = request.args.get('sort')
+        print(sort)
+        if sort:
+            sql = sql + ' ORDER BY ' + sort
     cur = db.cursor()
-    cur.execute('SELECT * FROM datacator.municipios')
+    cur.execute(sql)
     colnames = [desc[0] for desc in cur.description]
     cecos = cur.fetchall()
     #return str (str(cur.description) + str(cecos))
