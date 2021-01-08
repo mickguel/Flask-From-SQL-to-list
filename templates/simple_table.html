@@ -1,29 +1,56 @@
 <!doctype html>
 <head>
+    <meta charset='utf-8'>
     <title>Simple table with simple connection</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href ="{{ url_for('static', filename='basic.css') }}"/>
+
 </head>
 <body>
-    <table class='table table-striped table-sm table-responsive'>
-        <thead class="sticky"><tr>
-        {% for name in colnames %}
-            <th class="bg-dark" scope="col">
-                <a href = {{ url_for(request.endpoint, sort=name) }} class="text-primary">
-                {{ name }}
-                </a>
-            </th>
-        {% endfor %}
-        </tr></thead>
-        <tbody>
-        <br />
-        {% for row in table %}
-            <tr>
-            {% for name in colnames %}
-                <td>{{ row[loop.index-1] }}</td>
-            {% endfor %}
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="container-fluid">
+        <table id="tabla_listado" class='table table-striped table-sm table-responsive'>
+
+            <!-- Cabecera -->
+            <thead>
+                <!-- Filtro -->
+                <form role="form" method="GET" action='/'>
+                <tr class="bg-secondary">
+                    {% for name in colnames %}
+                        <td>
+                            <input type="text" class="form-control-sm" name="{{name}}" value = "{{ params[name]}}" id="{{name}}-box" placeholder="...{{name}}"/>
+                        </td>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-info btn-sm">Filtrar</button>
+                </tr>
+                </form>
+                <em> </em>
+                <a class="btn btn-info btn-sm" href="#" role="button">csv</a>
+                <!-- Filtro -->
+                <tr>
+                    {% for name in colnames %}
+                        <th class="bg-dark" scope="col">
+                            <a href = {{ url_for(request.endpoint, sort=name) }} class="text-primary">
+                        {{ name }}
+                            </a>
+                        </th>
+                    {% endfor %}
+                </tr></thead>
+
+            <!-- Cuerpo de la tabla -->
+            <tbody>
+                <!-- Datos -->
+                {% for row in table %}
+                    <tr>
+                        {% for name in colnames %}
+                            <td>{{ row[loop.index-1] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="/static/basic.js"></script>
 </body>
