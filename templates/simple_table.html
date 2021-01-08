@@ -9,26 +9,57 @@
 <body>
     <div class="container-fluid">
         <table id="tabla_listado" class='table table-striped table-sm table-responsive'>
+
             <!-- Cabecera -->
             <thead>
-                <!-- Filtro -->
-                <form role="form" method="GET" action='/'>
+                <!-- Filtro y orden en cabecera-->
+                <form id = "form_filter_sort" role="form" method="GET" action='/'>
                 <tr class="bg-secondary">
                     {% for name in colnames %}
                         <td>
                             <input type="text" class="form-control-sm" name="{{name}}" value = "{{ params[name]}}" id="{{name}}-box" placeholder="...{{name}}"/>
                         </td>
                     {% endfor %}
+
                     <!-- Sort -->
-                    <input type="text" class="form-control-sm" name="sort1" value = "{{ params['sort1']}}" id="sort1-box" placeholder="...sort1"/><em> </em>
-                    <input type="text" class="form-control-sm" name="sort2" value = "{{ params['sort2']}}" id="sort2-box" placeholder="...sort2"/><em> </em>
-                    <input type="text" class="form-control-sm" name="sort3" value = "{{ params['sort3']}}" id="sort3-box" placeholder="...sort3"/><em> </em>
-                    <button type="submit" class="btn btn-info btn-sm">Filtrar</button>
+                    <select class="form-control-sm" name="sort1" id="sort1-box">
+                        <option value="" selected>...orden</option>
+                        {% for name in colnames %}
+                            {% if params['sort1'] == name %}
+                            <option value="{{name}}" selected>{{name}}</option>
+                            {% else %}
+                            <option value="{{name}}">{{name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <em> </em><select class="form-control-sm" name="sort2" id="sort2-box">
+                        <option value="" selected>...orden</option>
+                        {% for name in colnames %}
+                            {% if params['sort2'] == name %}
+                            <option value="{{name}}" selected>{{name}}</option>
+                            {% else %}
+                            <option value="{{name}}">{{name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <em> </em><select class="form-control-sm" name="sort3" id="sort3-box">
+                        <option value="" selected>...orden</option>
+                        {% for name in colnames %}
+                            {% if params['sort3'] == name %}
+                            <option value="{{name}}" selected>{{name}}</option>
+                            {% else %}
+                            <option value="{{name}}">{{name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <em> </em>Filas: <input type="number" class="form-control-sm" step="10" name="step" value = "{{ params['step']|default(100) }}" id="step-box" min="10" max="1000" required></input>
+                    <em> </em><button type="submit" class="btn btn-secondary btn-sm">Filtrar</button>
+                    <em> </em><button type="reset"class="btn btn-warning btn-sm">Reset</button>
                 </tr>
                 </form>
-                <em> </em>
-                <a class="btn btn-info btn-sm" href="#" role="button">csv</a>
-                <!-- Filtro -->
+                <em> </em><a class="btn btn-info btn-sm" href="#" role="button">csv</a>
+
+                <!-- Fields -->
                 <tr>
                     {% for name in colnames %}
                         <th class="bg-dark text-info" scope="col">
@@ -53,5 +84,5 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="/static/basic.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='basic.js') }}"></script>
 </body>

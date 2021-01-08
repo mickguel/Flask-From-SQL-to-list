@@ -22,7 +22,7 @@ def index():
     # sql principal
     sql = "SELECT * FROM datacator.municipios"
 
-    # filtro y orden --- PENDIENTE CAMBIAR EL TIPO DE VALOR (INT, FLOAT, DATA)
+    # filtro y orden --- PENDIENTE CAMBIAR EL TIPO DE VALOR (INT, FLOAT, DATA) y NO ENVIAR VALORES EN BLANCO
     whereSQL = ""
     sortSQL = ""
     for key, value in request.args.items():
@@ -33,7 +33,7 @@ def index():
                 else:
                     sortSQL = sortSQL + ", "
                 sortSQL = sortSQL + value
-            else:
+            elif key != "step":
                 if whereSQL == "":
                     whereSQL = " WHERE "
                 else:
