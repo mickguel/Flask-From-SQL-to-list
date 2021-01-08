@@ -22,25 +22,27 @@ def index():
     # sql principal
     sql = "SELECT * FROM datacator.municipios"
 
-    # filtro
+    # filtro y orden --- PENDIENTE CAMBIAR EL TIPO DE VALOR (INT, FLOAT, DATA)
     whereSQL = ""
+    sortSQL = ""
     for key, value in request.args.items():
-        if key != "sort" and value != "":
-            if whereSQL == "":
-                whereSQL = " WHERE "
+        if value != "":
+            if key == "sort1" or key == "sort2" or key == "sort3":
+                if sortSQL == "":
+                    sortSQL = " ORDER BY "
+                else:
+                    sortSQL = sortSQL + ", "
+                sortSQL = sortSQL + value
             else:
-                whereSQL = whereSQL + " AND "
-            if '%' in value:
-                whereSQL = whereSQL + key + " like '" + value + "'"
-            else:
-                whereSQL = whereSQL + key + " = '" + value + "'"
-    sql = sql + whereSQL
-
-    # orden
-    if request.method == 'GET':
-        sort = request.args.get('sort')
-        if sort:
-            sql = sql + ' ORDER BY ' + sort
+                if whereSQL == "":
+                    whereSQL = " WHERE "
+                else:
+                    whereSQL = whereSQL + " AND "
+                if '%' in value:
+                    whereSQL = whereSQL + key + " like '" + value + "'"
+                else:
+                    whereSQL = whereSQL + key + " = '" + value + "'"
+    sql = sql + whereSQL + sortSQL
 
     print(sql)
 
@@ -48,6 +50,7 @@ def index():
     cur.execute(sql)
     colnames = [desc[0] for desc in cur.description]
     cecos = cur.fetchall()
+    cur.close()
 
     # exportar
 
