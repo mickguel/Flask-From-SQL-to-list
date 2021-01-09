@@ -1,0 +1,3 @@
+{% for name in colnames %} {{ name|replace("'","`") }};{% endfor %}
+{% for row in table %}{% for name in colnames %} {{ row[loop.index-1]|replace("'","`") }}; {% endfor %}
+{% endfor %}

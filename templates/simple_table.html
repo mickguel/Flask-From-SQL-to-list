@@ -52,12 +52,14 @@
                             {% endif %}
                         {% endfor %}
                     </select>
+                    <!-- Pendiente implementar paginacion
                     <em> </em>Filas: <input type="number" class="form-control-sm" step="10" name="step" value = "{{ params['step']|default(100) }}" id="step-box" min="10" max="1000" required></input>
+                    -->
                     <em> </em><button type="submit" class="btn btn-secondary btn-sm">Filtrar</button>
                     <em> </em><button type="reset"class="btn btn-warning btn-sm">Reset</button>
                 </tr>
                 </form>
-                <em> </em><a class="btn btn-info btn-sm" href="#" role="button">csv</a>
+                <em> </em><a class="btn btn-info btn-sm" href="{{ request.url|replace("?","csv/?") }}" role="button" target="_blank">csv</a>
 
                 <!-- Fields -->
                 <tr>
